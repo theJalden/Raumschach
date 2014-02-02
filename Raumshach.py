@@ -90,12 +90,27 @@ class Game():
                                 if tile.X_coordinate <= mouse_position[0] and tile.X_coordinate + 40 > mouse_position[0]:
                                     if tile.Y_coordinate <= mouse_position[1] and tile.Y_coordinate + 40 > mouse_position[1]:
                                         tile.select()
-                                        selectedTiles = [tile]
+                                        if selectedTiles == []:
+                                            selectedTiles = [tile]
                                         
+                                        elif tile in selectedTiles:
+                                            selectedTiles = []
+                                            
+                                        elif selectedTiles[0].piece is not None:
+                                            if selectedTiles[0].piece.can_move(tile):
+                                                selectedTiles[0].piece.move(selectedTiles[0], tile)
+                                            selectedTiles = []
+                                        
+                                            
+                                        else:
+                                            selectedTiles = [tile]
+                                            
+                                        
+            
+            self.drawBoards()
             for tile in selectedTiles:
-                self.drawBoards()
                 pygame.draw.rect(self.DISPLAY, (255, 0, 0), (tile.X_coordinate, tile.Y_coordinate, 40, 40), 0)
-                self.drawPieces()
+            self.drawPieces()
                 
             
             pygame.display.update()

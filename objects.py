@@ -27,6 +27,10 @@ class Piece():
         self.Y = 0
         self.Z = 0
     
+    def move(self, tile1, tile2):
+        tile2.setPiece(self)
+        tile1.removePiece()
+    
     def moveForward(self, n):
         self.Y += n
         if self.Y > 4:
@@ -57,7 +61,7 @@ class Piece():
 class Pawn_White(Piece):
     def can_move(self, tile):
         if tile.X == self.X:
-            if tile.Y == self.Y + 1 and tile.Z == self.Z:
+            if tile.Y == self.Y - 1 and tile.Z == self.Z:
                 return True
                 
             if tile.Y == self.Y and tile.Z == self.Z+1:
@@ -90,15 +94,15 @@ class Bishop_White(Piece):
     
         if tile.X != self.X and tile.Y != self.Y and tile.Z != self.Z:
             if tile.Z == self.Z:
-                if math.abs(tile.Y-self.Y) == math.abs(tile.X-self.X):
+                if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
                     return True    
                     
             elif tile.X == self.X:
-                if math.abs(tile.Y-self.Y) == math.abs(tile.Z-self.Z):
+                if math.fabs(tile.Y-self.Y) == math.fabs(tile.Z-self.Z):
                     return True
                     
             elif tile.Y == self.Y:
-                if math.abs(tile.X-self.X) == math.abs(tile.Z-self.Z):
+                if math.fabs(tile.X-self.X) == math.fabs(tile.Z-self.Z):
                     return True
                     
             else:
@@ -113,7 +117,7 @@ class Bishop_White(Piece):
 class Thief_White(Piece):
     def can_move(self, tile):
     
-            if math.abs(tile.Y-self.Y) == math.abs(tile.X-self.X) and math.abs(tile.X-self.X) == math.abs(tile.Z - self.Z):
+            if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X) and math.fabs(tile.X-self.X) == math.fabs(tile.Z - self.Z):
                 return True
                 
             else:
@@ -128,27 +132,27 @@ class Queen_White(Piece):
         if tile.X != self.X and tile.Y != self.Y and tile.Z != self.Z:
         
             if tile.Z == self.Z:
-                if math.abs(tile.Y-self.Y) == math.abs(tile.X-self.X):
+                if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
                     return True
                     
                 elif tile.X == self.X or tile.Y == self.Y:
                     return True
                     
             elif tile.X == self.X:
-                if math.abs(tile.Y-self.Y) == math.abs(tile.Z-self.Z):
+                if math.fabs(tile.Y-self.Y) == math.fabs(tile.Z-self.Z):
                     return True
                     
                 elif tile.Y == self.Y or tile.Y == self.Y:
                     return True
                     
             elif tile.Y == self.Y:
-                if math.abs(tile.X-self.X) == math.abs(tile.Z-self.Z):
+                if math.fabs(tile.X-self.X) == math.fabs(tile.Z-self.Z):
                     return True
                     
                 if tile.X == self.X or tile.Z == self.Z:
                     return True
                 
-            elif math.abs(tile.Y-self.Y) == math.abs(tile.X-self.X) and math.abs(tile.X-self.X) == math.abs(tile.Z - self.Z):
+            elif math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X) and math.fabs(tile.X-self.X) == math.fabs(tile.Z - self.Z):
                 return True
                 
             else:
@@ -161,7 +165,7 @@ class Queen_White(Piece):
         
 class King_White(Piece):
     def can_move(self, tile):
-        if math.abs(tile.X - self.X) <= 1 and math.abs(tile.Y - self.Y) <= 1 and math.abs(tile.Z - self.Z) <= 1:
+        if math.fabs(tile.X - self.X) <= 1 and math.fabs(tile.Y - self.Y) <= 1 and math.fabs(tile.Z - self.Z) <= 1:
             return True
             
         else:
@@ -173,30 +177,30 @@ class King_White(Piece):
 class Knight_White(Piece):
     def can_move(self, tile):
         if tile.Z == self.Z:
-            if math.abs(tile.X-self.X) == 2 and math.abs(tile.Y-self.Y) == 1:
+            if math.fabs(tile.X-self.X) == 2 and math.fabs(tile.Y-self.Y) == 1:
                 return True
                 
-            elif math.abs(tile.X-self.X) == 1 and math.abs(tile.Y-self.Y) == 2:
+            elif math.fabs(tile.X-self.X) == 1 and math.fabs(tile.Y-self.Y) == 2:
                 return True
                 
             else:
                 return False
  
         elif tile.X == self.X:
-            if math.abs(tile.Z-self.Z) == 2 and math.abs(tile.Y-self.Y) == 1:
+            if math.fabs(tile.Z-self.Z) == 2 and math.fabs(tile.Y-self.Y) == 1:
                 return True
                 
-            elif math.abs(tile.Z-self.Z) == 1 and math.abs(tile.Y-self.Y) == 2:
+            elif math.fabs(tile.Z-self.Z) == 1 and math.fabs(tile.Y-self.Y) == 2:
                 return True
                 
             else:
                 return False      
         
         elif tile.Y == self.Y:
-            if math.abs(tile.Z-self.Z) == 2 and math.abs(tile.X-self.X) == 1:
+            if math.fabs(tile.Z-self.Z) == 2 and math.fabs(tile.X-self.X) == 1:
                 return True
                 
-            elif math.abs(tile.Z-self.Z) == 1 and math.abs(tile.X-self.X) == 2:
+            elif math.fabs(tile.Z-self.Z) == 1 and math.fabs(tile.X-self.X) == 2:
                 return True
                 
             else:
@@ -211,7 +215,7 @@ class Knight_White(Piece):
 class Pawn_Black(Piece):
     def can_move(self, tile):
         if tile.X == self.X:
-            if tile.Y == self.Y - 1 and tile.Z == self.Z:
+            if tile.Y == self.Y + 1 and tile.Z == self.Z:
                 return True
                 
             if tile.Y == self.Y and tile.Z == self.Z-1:
@@ -273,7 +277,13 @@ class Tile():
         
     def setPiece(self, piece):
         self.piece = piece
+        piece.setTile = self
+        piece.X = self.X
+        piece.Y = self.Y
+        piece.Z = self.Z
         
+    def removePiece(self):
+        self.piece = None
 
 class Board(list):
     def __init__(self, number):
