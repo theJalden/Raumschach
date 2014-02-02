@@ -39,31 +39,31 @@ class Game():
                 for tile in rank:
                 
                     if board_index == 0:
-                        if rank_index == 0:
+                        if rank_index == 3:
                             tile.setPiece(self.white_pieces[tile_index])
                             
-                        elif rank_index == 1:
+                        elif rank_index == 4:
                             tile.setPiece(self.white_pieces[tile_index+5])
                             
                     elif board_index == 1:
-                        if rank_index == 0:
+                        if rank_index == 3:
                             tile.setPiece(self.white_pieces[tile_index+10])
                             
-                        if rank_index == 1:
+                        if rank_index == 4:
                             tile.setPiece(self.white_pieces[tile_index+15])
                             
                     elif board_index == 3:
-                        if rank_index == 3:
+                        if rank_index == 0:
                             tile.setPiece(self.black_pieces[tile_index])
                             
-                        if rank_index == 4:
+                        if rank_index == 1:
                             tile.setPiece(self.black_pieces[tile_index+5])
                             
                     elif board_index == 4:
-                        if rank_index == 3:
+                        if rank_index == 0:
                             tile.setPiece(self.black_pieces[tile_index+10])
                             
-                        if rank_index == 4:
+                        if rank_index == 1:
                             tile.setPiece(self.black_pieces[tile_index+15])
                             
                     tile_index += 1
@@ -102,22 +102,17 @@ class Game():
 
     def populatePieces(self):
         self.white_pieces = [Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w),
+                             Rook_White(self.sprite.rook_w), Knight_White(self.sprite.knight_w), King_White(self.sprite.king_w), Knight_White(self.sprite.knight_w), Rook_White(self.sprite.rook_w),
                              Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w),
-                             King_White(self.sprite.king_w),
-                             Queen_White(self.sprite.queen_w),
-                             Rook_White(self.sprite.rook_w), Rook_White(self.sprite.rook_w),
-                             Thief_White(self.sprite.thief_w), Thief_White(self.sprite.thief_w),
-                             Bishop_White(self.sprite.bishop_w), Bishop_White(self.sprite.bishop_w),
-                             Knight_White(self.sprite.knight_w), Knight_White(self.sprite.knight_w)]
+                             Thief_White(self.sprite.thief_w),Bishop_White(self.sprite.bishop_w), Queen_White(self.sprite.queen_w), Thief_White(self.sprite.thief_w), Bishop_White(self.sprite.bishop_w)
+                             ]
                       
-        self.black_pieces = [Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b),
+        self.black_pieces = [
+                             Bishop_Black(self.sprite.bishop_b), Thief_Black(self.sprite.thief_b), Queen_Black(self.sprite.queen_b), Bishop_Black(self.sprite.bishop_b), Thief_Black(self.sprite.thief_b),
                              Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b),
-                             King_Black(self.sprite.king_b),
-                             Queen_Black(self.sprite.queen_b),
-                             Rook_Black(self.sprite.rook_b), Rook_Black(self.sprite.rook_b),
-                             Thief_Black(self.sprite.thief_b), Thief_Black(self.sprite.thief_b),
-                             Bishop_Black(self.sprite.bishop_b), Bishop_Black(self.sprite.bishop_b),
-                             Knight_Black(self.sprite.knight_b), Knight_Black(self.sprite.knight_b)]
+                             Rook_Black(self.sprite.rook_b), Knight_Black(self.sprite.knight_b), King_Black(self.sprite.king_b), Knight_Black(self.sprite.knight_b), Rook_Black(self.sprite.rook_b),
+                             Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b)
+                              ]
 
     def drawBoards(self):
         self.DISPLAY.blit(self.board_A, (60, 80))
