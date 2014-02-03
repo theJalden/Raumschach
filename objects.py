@@ -19,7 +19,17 @@ class Sprite():
         self.rook_w = pygame.image.load("images\\rook_w.png")
         self.rook_b = pygame.image.load("images\\rook_b.png")
 
-
+class Player():
+    def __init__(self, color, pieces):
+        self.color = color
+        self.pieces = pieces
+        self.capturedPieces = []
+        self.is_turn = False
+        
+    def toggle_turn(self):
+        self.is_turn = not self.is_turn
+        
+        
 class Piece():
     def __init__(self, image):
         self.image = image

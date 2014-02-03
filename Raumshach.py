@@ -24,6 +24,9 @@ class Game():
         self.sprite = Sprite()
         self.pieces = self.populatePieces()
         
+        self.player_white = Player("white", self.white_pieces)
+        self.player_black = Player("black", self.black_pieces)
+        self.player_white.toggle_turn()
         
         self.GAMEBOARD = FullBoard()
         self.resetPieces()
@@ -76,6 +79,8 @@ class Game():
     def run(self):
         self.setBaseImage()
         selectedTiles = []
+        activePlayer = self.player_white
+        nonActivePlayer = self.player_black
         while True:
            
             for event in pygame.event.get():
@@ -97,10 +102,14 @@ class Game():
                                         elif tile in selectedTiles:
                                             selectedTiles = []
                                             
-                                        elif selectedTiles[0].piece is not None:
+                                        elif selectedTiles[0].piece is not None and selectedTiles[0].piece in activePlayer.pieces:
                                             if selectedTiles[0].piece.can_move(tile):
                                                 selectedTiles[0].piece.move(selectedTiles[0], tile)
                                             selectedTiles = []
+                                            tempPlayer = activePlayer
+                                            activePlayer = nonActivePlayer
+                                            nonActivePlayer = tempPlayer
+                                            tempPlayer = None
                                         
                                             
                                         else:
