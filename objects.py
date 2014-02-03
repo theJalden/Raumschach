@@ -92,7 +92,7 @@ class Rook_White(Piece):
 class Bishop_White(Piece):
     def can_move(self, tile):
     
-        if tile.X != self.X and tile.Y != self.Y and tile.Z != self.Z:
+        if tile.X != self.X or tile.Y != self.Y or tile.Z != self.Z:
             if tile.Z == self.Z:
                 if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
                     return True    
@@ -129,7 +129,7 @@ class Thief_White(Piece):
 class Queen_White(Piece):
     def can_move(self, tile):
     
-        if tile.X != self.X and tile.Y != self.Y and tile.Z != self.Z:
+        if tile.X != self.X or tile.Y != self.Y or tile.Z != self.Z:
         
             if tile.Z == self.Z:
                 if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
