@@ -60,12 +60,15 @@ class Piece():
 
 class Pawn_White(Piece):
     def can_move(self, tile):
-        if tile.X == self.X:
-            if tile.Y == self.Y - 1 and tile.Z == self.Z:
-                return True
-                
-            if tile.Y == self.Y and tile.Z == self.Z+1:
-                return True
+        if tile.piece is None:
+            if tile.X == self.X:
+                if tile.Y == self.Y - 1 and tile.Z == self.Z:
+                    return True
+                    
+                if tile.Y == self.Y and tile.Z == self.Z+1:
+                    return True
+            else:
+                return False
         else:
             return False
             
@@ -74,17 +77,18 @@ class Pawn_White(Piece):
 
 class Rook_White(Piece):
     def can_move(self, tile):
-            if tile.X == self.X and tile.Y == self.Y and tile.Z != self.Z:
-                return True
-                
-            elif tile.X == self.X and tile.Y != self.Y and tile.Z == self.Z:
-                return True
-                
-            elif tile.X != self.X and tile.Y == self.Y and tile.Z == self.Z:
-                return True
-                
-            else:
-                return False
+        
+        if tile.X == self.X and tile.Y == self.Y and tile.Z != self.Z:
+            return True
+            
+        elif tile.X == self.X and tile.Y != self.Y and tile.Z == self.Z:
+            return True
+            
+        elif tile.X != self.X and tile.Y == self.Y and tile.Z == self.Z:
+            return True
+            
+        else:
+            return False
     
     def _setColor(self):
         self.color = "White"
@@ -214,14 +218,15 @@ class Knight_White(Piece):
 
 class Pawn_Black(Piece):
     def can_move(self, tile):
-        if tile.X == self.X:
-            if tile.Y == self.Y + 1 and tile.Z == self.Z:
-                return True
-                
-            if tile.Y == self.Y and tile.Z == self.Z-1:
-                return True
-        else:
-            return False
+        if tile.piece is None:
+            if tile.X == self.X:
+                if tile.Y == self.Y + 1 and tile.Z == self.Z:
+                    return True
+                    
+                if tile.Y == self.Y and tile.Z == self.Z-1:
+                    return True
+            else:
+                return False
             
     def _setColor(self):
         self.color = "Black"

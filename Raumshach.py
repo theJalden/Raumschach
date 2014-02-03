@@ -19,6 +19,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self.DISPLAY = pygame.display.set_mode((1280, 720))
+        self.clock = pygame.time.Clock()
         self.setPictures()
         self.sprite = Sprite()
         self.pieces = self.populatePieces()
@@ -114,6 +115,7 @@ class Game():
                 
             
             pygame.display.update()
+            self.clock.tick(40)
 
     def populatePieces(self):
         self.white_pieces = [Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w),
