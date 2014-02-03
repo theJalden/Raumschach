@@ -4,20 +4,20 @@ import math
 
 class Sprite():
     def __init__(self):
-        self.pawn_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\pawn_w.png")
-        self.pawn_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\pawn_b.png")
-        self.knight_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\knight_w.png")
-        self.knight_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\knight_b.png")
-        self.bishop_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\bishop_w.png")
-        self.bishop_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\bishop_b.png")
-        self.thief_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\thief_w.png")
-        self.thief_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\thief_b.png")
-        self.king_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\king_w.png")
-        self.king_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\king_b.png")
-        self.queen_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\queen_w.png")
-        self.queen_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\queen_b.png")
-        self.rook_w = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\rook_w.png")
-        self.rook_b = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\rook_b.png")
+        self.pawn_w = pygame.image.load("images\\pawn_w.png")
+        self.pawn_b = pygame.image.load("images\\pawn_b.png")
+        self.knight_w = pygame.image.load("images\\knight_w.png")
+        self.knight_b = pygame.image.load("images\\knight_b.png")
+        self.bishop_w = pygame.image.load("images\\bishop_w.png")
+        self.bishop_b = pygame.image.load("images\\bishop_b.png")
+        self.thief_w = pygame.image.load("images\\thief_w.png")
+        self.thief_b = pygame.image.load("images\\thief_b.png")
+        self.king_w = pygame.image.load("images\\king_w.png")
+        self.king_b = pygame.image.load("images\\king_b.png")
+        self.queen_w = pygame.image.load("images\\queen_w.png")
+        self.queen_b = pygame.image.load("images\\queen_b.png")
+        self.rook_w = pygame.image.load("images\\rook_w.png")
+        self.rook_b = pygame.image.load("images\\rook_b.png")
 
 
 class Piece():

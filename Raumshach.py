@@ -156,9 +156,9 @@ class Game():
 
     
     def setPictures(self):
-        self.background = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\Raumschach_bg.png")
-        self.board_black = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\Raumschach_board_black.png")
-        self.board_white = pygame.image.load("C:\\Users\\Joseph\\Documents\\Raumschach\\images\\Raumschach_board_white.png")
+        self.background = pygame.image.load("images\\Raumschach_bg.png")
+        self.board_black = pygame.image.load("images\\Raumschach_board_black.png")
+        self.board_white = pygame.image.load("images\\Raumschach_board_white.png")
      
 
 
