@@ -31,92 +31,56 @@ class Player():
         
         
 class Piece():
-    def __init__(self, image):
+    def __init__(self, image, color):  #color: 0 = white, 1 = black
         self.image = image
-        self.X = 0
-        self.Y = 0
-        self.Z = 0
+        #TODO, remove self posistion, rely on tile coordinates
+        self.color = color
     
-    def move(self, tile1, tile2):
-        tile2.setPiece(self)
-        tile1.removePiece()
-    
-    def moveForward(self, n):
-        self.Y += n
-        if self.Y > 4:
-            self.Y = 4
-        elif self.Y < 0:
-            self.Y = 0
-            
-    def moveUp(self, n):
-        self.Z += n        
-        if self.Z > 4:
-            self.Z = 4
-        elif self.Z < 0:
-            self.Z = 0
-            
-    def moveRight(self, n):
-        self.X += n        
-        if self.X > 4:
-            self.X = 4
-        elif self.X < 0:
-            self.X = 0
-            
-    def _setColor(self):
-        self.color = None
-        
-    def setTile(self, tile):
+    def move(self, tile):
         self.tile = tile
+
 
 class Pawn_White(Piece):
     def can_move(self, tile):
-        if tile.piece is None:
-            if tile.X == self.X:
-                if tile.Y == self.Y - 1 and tile.Z == self.Z:
-                    return True
-                    
-                if tile.Y == self.Y and tile.Z == self.Z+1:
-                    return True
-            else:
-                return False
+        if tile.X == self.tile.X:
+            if tile.Y == self.tile.Y - 1 and tile.Z == self.tile.Z:
+                return True
+                
+            if tile.Y == self.tile.Y and tile.Z == self.tile.Z+1:
+                return True
         else:
             return False
-            
-    def _setColor(self):
-        self.color = "White"
+
 
 class Rook_White(Piece):
     def can_move(self, tile):
         
-        if tile.X == self.X and tile.Y == self.Y and tile.Z != self.Z:
+        if tile.X == self.tile.X and tile.Y == self.tile.Y and tile.Z != self.tile.Z:
             return True
             
-        elif tile.X == self.X and tile.Y != self.Y and tile.Z == self.Z:
+        elif tile.X == self.tile.X and tile.Y != self.tile.Y and tile.Z == self.tile.Z:
             return True
             
-        elif tile.X != self.X and tile.Y == self.Y and tile.Z == self.Z:
+        elif tile.X != self.tile.X and tile.Y == self.tile.Y and tile.Z == self.tile.Z:
             return True
             
         else:
             return False
-    
-    def _setColor(self):
-        self.color = "White"
 
 class Bishop_White(Piece):
     def can_move(self, tile):
     
-        if tile.X != self.X or tile.Y != self.Y or tile.Z != self.Z:
-            if tile.Z == self.Z:
-                if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
+        if tile.X != self.tile.X or tile.Y != self.tile.Y or tile.Z != self.tile.Z:
+            if tile.Z == self.tile.Z:
+                if math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.X-self.tile.X):
                     return True    
                     
-            elif tile.X == self.X:
-                if math.fabs(tile.Y-self.Y) == math.fabs(tile.Z-self.Z):
+            elif tile.X == self.tile.X:
+                if math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.Z-self.tile.Z):
                     return True
                     
-            elif tile.Y == self.Y:
-                if math.fabs(tile.X-self.X) == math.fabs(tile.Z-self.Z):
+            elif tile.Y == self.tile.Y:
+                if math.fabs(tile.X-self.tile.X) == math.fabs(tile.Z-self.tile.Z):
                     return True
                     
             else:
@@ -124,97 +88,89 @@ class Bishop_White(Piece):
                 
         else:
             return False
-            
-    def _setColor(self):
-        self.color = "White"
+
     
 class Thief_White(Piece):
     def can_move(self, tile):
-    
-            if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X) and math.fabs(tile.X-self.X) == math.fabs(tile.Z - self.Z):
+        if tile.X != self.tile.X or tile.Y != self.tile.Y or tile.Z != self.tile.Z:
+            if math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.X-self.tile.X) and math.fabs(tile.X-self.tile.X) == math.fabs(tile.Z - self.tile.Z):
                 return True
                 
             else:
                 return False
-                
-    def _setColor(self):
-        self.color = "White"
+
 
 class Queen_White(Piece):
     def can_move(self, tile):
     
-        if tile.X != self.X or tile.Y != self.Y or tile.Z != self.Z:
+        if tile.X != self.tile.X or tile.Y != self.tile.Y or tile.Z != self.tile.Z:
         
-            if tile.Z == self.Z:
-                if math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X):
+            if tile.Z == self.tile.Z:
+                if math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.X-self.tile.X):
                     return True
                     
-                elif tile.X == self.X or tile.Y == self.Y:
+                elif tile.X == self.tile.X or tile.Y == self.tile.Y:
                     return True
                     
-            elif tile.X == self.X:
-                if math.fabs(tile.Y-self.Y) == math.fabs(tile.Z-self.Z):
+            elif tile.X == self.tile.X:
+                if math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.Z-self.tile.Z):
                     return True
                     
-                elif tile.Y == self.Y or tile.Y == self.Y:
+                elif tile.Y == self.tile.Y or tile.Y == self.tile.Y:
                     return True
                     
-            elif tile.Y == self.Y:
-                if math.fabs(tile.X-self.X) == math.fabs(tile.Z-self.Z):
+            elif tile.Y == self.tile.Y:
+                if math.fabs(tile.X-self.tile.X) == math.fabs(tile.Z-self.tile.Z):
                     return True
                     
-                if tile.X == self.X or tile.Z == self.Z:
+                if tile.X == self.tile.X or tile.Z == self.tile.Z:
                     return True
                 
-            elif math.fabs(tile.Y-self.Y) == math.fabs(tile.X-self.X) and math.fabs(tile.X-self.X) == math.fabs(tile.Z - self.Z):
+            elif math.fabs(tile.Y-self.tile.Y) == math.fabs(tile.X-self.tile.X) and math.fabs(tile.X-self.tile.X) == math.fabs(tile.Z - self.tile.Z):
                 return True
                 
             else:
                 return False
                 
         else: return False
-        
-    def _setColor(self):
-        self.color = "White"
+
         
 class King_White(Piece):
     def can_move(self, tile):
-        if math.fabs(tile.X - self.X) <= 1 and math.fabs(tile.Y - self.Y) <= 1 and math.fabs(tile.Z - self.Z) <= 1:
+        if math.fabs(tile.X - self.tile.X) <= 1 and math.fabs(tile.Y - self.tile.Y) <= 1 and math.fabs(tile.Z - self.tile.Z) <= 1:
             return True
             
         else:
             return False
             
-    def _setColor(self):
-        self.color = "White"
         
 class Knight_White(Piece):
     def can_move(self, tile):
-        if tile.Z == self.Z:
-            if math.fabs(tile.X-self.X) == 2 and math.fabs(tile.Y-self.Y) == 1:
+        if tile.Z == self.tile.Z:
+            if math.fabs(tile.X-self.tile.X) == 2 and math.fabs(tile.Y-self.tile.Y) == 1:
                 return True
                 
-            elif math.fabs(tile.X-self.X) == 1 and math.fabs(tile.Y-self.Y) == 2:
+            elif math.fabs(tile.X-self.tile.X) == 1 and math.fabs(tile.Y-self.tile.Y) == 2:
                 return True
                 
             else:
                 return False
  
-        elif tile.X == self.X:
-            if math.fabs(tile.Z-self.Z) == 2 and math.fabs(tile.Y-self.Y) == 1:
+        elif tile.X == self.tile.X:
+            if math.fabs(tile.Z-self.tile.Z) == 2 and math.fabs(tile.Y-self.tile.Y) == 1:
                 return True
                 
-            elif math.fabs(tile.Z-self.Z) == 1 and math.fabs(tile.Y-self.Y) == 2:
+            elif math.fabs(tile.Z-self.tile.Z) == 1 and math.fabs(tile.Y-self.tile.Y) == 2:
                 return True
                 
             else:
                 return False      
         
-        elif tile.Y == self.Y:
-            if math.fabs(tile.Z-self.Z) == 2 and math.fabs(tile.X-self.X) == 1:
+        elif tile.Y == self.tile.Y:
+            if math.fabs(tile.Z-self.tile.Z) == 2 and math.fabs(tile.X-self.tile.X) == 1:
                 return True
                 
-            elif math.fabs(tile.Z-self.Z) == 1 and math.fabs(tile.X-self.X) == 2:
+            elif math.fabs(tile.Z-self.tile.Z) == 1 and math.fabs(tile.X-self.tile.X) == 2:
                 return True
                 
             else:
@@ -222,55 +178,41 @@ class Knight_White(Piece):
                 
         else:
             return False
-            
-    def _setColor(self):
-        self.color = "White"
+
 
 class Pawn_Black(Piece):
     def can_move(self, tile):
-        if tile.piece is None:
-            if tile.X == self.X:
-                if tile.Y == self.Y + 1 and tile.Z == self.Z:
-                    return True
-                    
-                if tile.Y == self.Y and tile.Z == self.Z-1:
-                    return True
-            else:
-                return False
-            
-    def _setColor(self):
-        self.color = "Black"
+        if tile.X == self.tile.X:
+            if tile.Y == self.tile.Y + 1 and tile.Z == self.tile.Z:
+                return True
+                
+            if tile.Y == self.tile.Y and tile.Z == self.tile.Z-1:
+                return True
+        else:
+            return False
+
 
 class Rook_Black(Rook_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 class Bishop_Black(Bishop_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 class Thief_Black(Thief_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 class Queen_Black(Queen_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 class King_Black(King_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 class Knight_Black(Knight_White):
-    def _setColor(self):
-        self.color = "Black"
+    pass
 
 
 class Tile():
     def __init__(self, rank, file, board):
-        self.piece = None
-        self.active = False
-        self.selected = False
         self.X = rank
         self.Y = file
         self.Z = board
@@ -278,28 +220,6 @@ class Tile():
         self.X_coordinate = (240*(4-board) + 60) + 40*file
         self.Y_coordinate = (100*(4-board) + 80) + 40*rank
         self.pos = (self.X_coordinate, self.Y_coordinate)
-        
-    def activate(self):
-        self.active = True
-        
-    def deactivate(self):
-        self.active = False
-        
-    def select(self):
-        self.selected = True
-        
-    def deselect(self):
-        self.selected = False
-        
-    def setPiece(self, piece):
-        self.piece = piece
-        piece.setTile = self
-        piece.X = self.X
-        piece.Y = self.Y
-        piece.Z = self.Z
-        
-    def removePiece(self):
-        self.piece = None
 
 class Board(list):
     def __init__(self, number, image):

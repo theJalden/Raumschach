@@ -44,31 +44,31 @@ class Game():
                 
                     if board_index == 0:
                         if rank_index == 3:
-                            self.player_white.pieces[tile_index].setTile(tile)
+                            self.player_white.pieces[tile_index].move(tile)
                             
                         elif rank_index == 4:
-                            self.player_white.pieces[tile_index+5].setTile(tile)
+                            self.player_white.pieces[tile_index+5].move(tile)
                             
                     elif board_index == 1:
                         if rank_index == 3:
-                            self.player_white.pieces[tile_index+10].setTile(tile)
+                            self.player_white.pieces[tile_index+10].move(tile)
                             
                         if rank_index == 4:
-                            self.player_white.pieces[tile_index+15].setTile(tile)
+                            self.player_white.pieces[tile_index+15].move(tile)
                             
                     elif board_index == 3:
                         if rank_index == 0:
-                            self.player_black.pieces[tile_index].setTile(tile)
+                            self.player_black.pieces[tile_index].move(tile)
                             
                         if rank_index == 1:
-                            self.player_black.pieces[tile_index+5].setTile(tile)
+                            self.player_black.pieces[tile_index+5].move(tile)
                             
                     elif board_index == 4:
                         if rank_index == 0:
-                            self.player_black.pieces[tile_index+10].setTile(tile)
+                            self.player_black.pieces[tile_index+10].move(tile)
                             
                         if rank_index == 1:
-                            self.player_black.pieces[tile_index+15].setTile(tile)
+                            self.player_black.pieces[tile_index+15].move(tile)
                             
                     tile_index += 1
                 
@@ -78,8 +78,10 @@ class Game():
         
     def run(self):
         self.setBaseImage()
-        selectedTile = None
+        #TODO: change selected tile to selected piece
+        selectedPiece = None
         hintTiles = []
+        players = [self.player_white, self.player_black]
         activePlayer = self.player_white
         nonActivePlayer = self.player_black
         while True:
@@ -91,38 +93,61 @@ class Game():
                     
                 elif event.type == MOUSEBUTTONUP:
                     mouse_position = pygame.mouse.get_pos()
-                    for board in self.GAMEBOARD:
-                        for rank in board:
-                            for tile in rank:
-                                if tile.X_coordinate <= mouse_position[0] and tile.X_coordinate + 40 > mouse_position[0]:
-                                    if tile.Y_coordinate <= mouse_position[1] and tile.Y_coordinate + 40 > mouse_position[1]:
-                                        tile.select()
-                                        if selectedTile is None:
-                                            selectedTile = tile
+                    if selectedPiece is None:
+                        for player in players:
+                            for piece in player.pieces:
+                            
+                                if piece.tile.X_coordinate <= mouse_position[0] and piece.tile.X_coordinate + 40 > mouse_position[0]:
+                                    if piece.tile.Y_coordinate <= mouse_position[1] and piece.tile.Y_coordinate + 40 > mouse_position[1]:
+                                    
+                                        if selectedPiece is None:
+                                            selectedPiece = piece
                                         
-                                        elif tile == selectedTile:
-                                            selectedTiles = None
-                                            
-                                        elif selectedTile.piece is not None and selectedTile.piece in activePlayer.pieces:
-                                            if selectedTile.piece.can_move(tile):
-                                                selectedTile.piece.move(selectedTile, tile)
-                                            selectedTiles = None
-                                            tempPlayer = activePlayer
-                                            activePlayer = nonActivePlayer
-                                            nonActivePlayer = tempPlayer
-                                            tempPlayer = None
-                                        
+                                        elif piece == selectedPiece:
+                                            selectedPiece = None
+                                            hintTiles = []
+                                   
                                             
                                         else:
-                                            selectedTiles = [tile]
+                                            selectedPiece = piece
+                    else:
+                        for board in self.GAMEBOARD:
+                            for rank in board:
+                                for tile in rank:
+                                    if tile.X_coordinate <= mouse_position[0] and tile.X_coordinate + 40 > mouse_position[0]:
+                                        if tile.Y_coordinate <= mouse_position[1] and tile.Y_coordinate + 40 > mouse_position[1]:
+                                            
+                                            if tile == selectedPiece.tile:
+                                                selectedPiece = None
+                                                hintTiles = []
+                                                
+                                            elif selectedPiece is not None and selectedPiece in activePlayer.pieces:
+                                                if selectedPiece.can_move(tile):
+                                                    selectedPiece.move(tile)
+                                                selectedPiece = None
+                                                hintTiles = []
+                                                tempPlayer = activePlayer
+                                                activePlayer = nonActivePlayer
+                                                nonActivePlayer = tempPlayer
+                                                tempPlayer = None
+                                            
+                                                
+                                            else:
+                                                continue
                                             
                                         
             #Draw frame
             for board in self.GAMEBOARD:
                 self.DISPLAY.blit(board.image, board.pos)
                 
-            if selectedTile is not None:
-                pygame.draw.rect(self.DISPLAY, (255, 0, 0), (selectedTile.X_coordinate, selectedTile.Y_coordinate, 40, 40), 0)
+                
+            if selectedPiece is not None:
+                pygame.draw.rect(self.DISPLAY, (255, 0, 0), (selectedPiece.tile.X_coordinate, selectedPiece.tile.Y_coordinate, 40, 40), 0)
+                for board in self.GAMEBOARD:
+                    for rank in board:
+                        for tile in rank:
+                            if selectedPiece.can_move(tile):
+                                hintTiles.append(tile)
                 
             for hint_tile in hintTiles:
                 pygame.draw.rect(self.DISPLAY, (255, 255, 0), (hint_tile.X_coordinate, hint_tile.Y_coordinate, 40, 40), 0)
@@ -137,43 +162,22 @@ class Game():
             self.clock.tick(40)
 
     def populatePieces(self):
-        self.white_pieces = [Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w),
-                             Rook_White(self.sprite.rook_w), Knight_White(self.sprite.knight_w), King_White(self.sprite.king_w), Knight_White(self.sprite.knight_w), Rook_White(self.sprite.rook_w),
-                             Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w), Pawn_White(self.sprite.pawn_w),
-                             Thief_White(self.sprite.thief_w),Bishop_White(self.sprite.bishop_w), Queen_White(self.sprite.queen_w), Thief_White(self.sprite.thief_w), Bishop_White(self.sprite.bishop_w)
+        self.white_pieces = [Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0),
+                             Rook_White(self.sprite.rook_w, 0), Knight_White(self.sprite.knight_w, 0), King_White(self.sprite.king_w, 0), Knight_White(self.sprite.knight_w, 0), Rook_White(self.sprite.rook_w, 0),
+                             Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0), Pawn_White(self.sprite.pawn_w, 0),
+                             Thief_White(self.sprite.thief_w, 0),Bishop_White(self.sprite.bishop_w, 0), Queen_White(self.sprite.queen_w, 0), Thief_White(self.sprite.thief_w, 0), Bishop_White(self.sprite.bishop_w, 0)
                              ]
                       
         self.black_pieces = [
-                             Bishop_Black(self.sprite.bishop_b), Thief_Black(self.sprite.thief_b), Queen_Black(self.sprite.queen_b), Bishop_Black(self.sprite.bishop_b), Thief_Black(self.sprite.thief_b),
-                             Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b),
-                             Rook_Black(self.sprite.rook_b), Knight_Black(self.sprite.knight_b), King_Black(self.sprite.king_b), Knight_Black(self.sprite.knight_b), Rook_Black(self.sprite.rook_b),
-                             Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b), Pawn_Black(self.sprite.pawn_b)
+                             Bishop_Black(self.sprite.bishop_b, 1), Thief_Black(self.sprite.thief_b, 1), Queen_Black(self.sprite.queen_b, 1), Bishop_Black(self.sprite.bishop_b, 1), Thief_Black(self.sprite.thief_b, 1),
+                             Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1),
+                             Rook_Black(self.sprite.rook_b, 1), Knight_Black(self.sprite.knight_b, 1), King_Black(self.sprite.king_b, 1), Knight_Black(self.sprite.knight_b, 1), Rook_Black(self.sprite.rook_b, 1),
+                             Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1), Pawn_Black(self.sprite.pawn_b, 1)
                               ]
-
-##    def drawBoards(self):
-##        self.DISPLAY.blit(self.board_A, (60, 80))
-##        self.DISPLAY.blit(self.board_B, (300,180))
-##        self.DISPLAY.blit(self.board_C, (540,280))
-##        self.DISPLAY.blit(self.board_D, (780,380))
-##        self.DISPLAY.blit(self.board_E, (1020,480))
-
-##    def drawPieces(self):
-##    
-##        for board in self.GAMEBOARD:
-##            for rank in board:
-##                for tile in rank:
-##                    if tile.piece is not None:
-##                        self.DISPLAY.blit(tile.piece.image, (tile.X_coordinate, tile.Y_coordinate))
-    
 
     
     def setBaseImage(self):
-        self.DISPLAY.blit(self.background, (0,0))
-        self.DISPLAY.blit(self.board_A, (60, 80))
-        self.DISPLAY.blit(self.board_B, (300,180))
-        self.DISPLAY.blit(self.board_C, (540,280))
-        self.DISPLAY.blit(self.board_D, (780,380))
-        self.DISPLAY.blit(self.board_E, (1020,480))            
+        self.DISPLAY.blit(self.background, (0,0))           
 
     
     def setPictures(self):
