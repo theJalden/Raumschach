@@ -277,6 +277,7 @@ class Tile():
         
         self.X_coordinate = (240*(4-board) + 60) + 40*file
         self.Y_coordinate = (100*(4-board) + 80) + 40*rank
+        self.pos = (self.X_coordinate, self.Y_coordinate)
         
     def activate(self):
         self.active = True
@@ -301,11 +302,14 @@ class Tile():
         self.piece = None
 
 class Board(list):
-    def __init__(self, number):
+    def __init__(self, number, image):
         for n in range(5):
             self.append([Tile(i, n, number) for i in range(5)])
+        self.image = image
+        self.pos = (240*number + 60, 100*number + 80 )
+        
             
 class FullBoard(list):
-    def __init__(self):
+    def __init__(self, images):
         for board in range(5):
-            self.append(Board(board))
+            self.append(Board(board, images[board]))
